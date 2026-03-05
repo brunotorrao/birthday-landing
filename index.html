@@ -36,8 +36,31 @@
       position: fixed;
       inset: 0;
       z-index: 0;
-      background: url('img/background.png') center center no-repeat;
-      background-size: auto 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bg img {
+      object-fit: cover;
+    }
+
+    .bg .bg-desktop {
+      display: block;
+      height: 100vh;
+      width: auto;
+    }
+    .bg .bg-mobile { display: none; }
+
+    @media (max-width: 768px) {
+      .bg .bg-desktop { display: none; }
+      .bg .bg-mobile {
+        display: block;
+        width: auto;
+        height: 100vh;
+        min-width: unset;
+      }
     }
 
     .bg-overlay {
@@ -66,7 +89,7 @@
     }
 
     .home-content h1 {
-      font-size: 2.4rem;
+      font-size: 1.8rem;
       font-weight: 700;
       margin-bottom: 1rem;
       color: #fff;
@@ -403,6 +426,10 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 600px) {
+      #home {
+        padding-top: 9rem;
+      }
+
       .home-content h1 {
         font-size: 1.8rem;
       }
@@ -430,7 +457,10 @@
 <body>
 
   <!-- Background -->
-  <div class="bg"></div>
+  <div class="bg">
+    <img class="bg-desktop" src="img/background.png" alt="">
+    <img class="bg-mobile" src="img/background-mobile.png" alt="">
+  </div>
   <div class="bg-overlay"></div>
 
   <!-- ===== SCREEN 1: HOME ===== -->
