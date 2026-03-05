@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Festa de Aniversário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      color: #c74571;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: #fff;
+    }
+
+    /* Background */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: url('img/background.png') center center no-repeat;
+      background-size: auto 100%;
+    }
+
+    .bg-overlay {
+      display: none;
+    }
+
+    /* Screens */
+    .screen {
+      display: none;
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== SCREEN 1: HOME ===== */
+    #home {
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+      padding: 12rem 1.5rem 140px;
+    }
+
+    .home-content h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #fff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    }
+
+    .title-img {
+      max-width: 50%;
+      max-height: 50vh;
+      object-fit: contain;
+    }
+
+    .event-info {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-top: 1rem;
+      text-shadow: 0 2px 4px rgba(255,255,255,0.8), 0 4px 16px rgba(255,255,255,0.6);
+    }
+
+    .event-location {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-top: 0.3rem;
+      color: #c74571;
+      text-shadow: 0 2px 4px rgba(255,255,255,0.8), 0 4px 16px rgba(255,255,255,0.6);
+    }
+
+    .event-address {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-top: 0.3rem;
+      color: #c74571;
+      text-shadow: 0 2px 4px rgba(255,255,255,0.8), 0 4px 16px rgba(255,255,255,0.6);
+    }
+
+    /* Bottom nav buttons */
+    .nav-buttons {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      display: flex;
+      gap: 0.6rem;
+      padding: 1.2rem 1rem;
+      background: none;
+      justify-content: center;
+    }
+
+    .nav-btn {
+      flex: 1;
+      max-width: 200px;
+      padding: 0.75rem 0.5rem;
+      border: 2px solid rgba(255,255,255,0.8);
+      border-radius: 50px;
+      background: rgba(199,69,113,1);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+
+    .nav-btn:active {
+      transform: translateY(0);
+    }
+
+    /* ===== SCREEN 2: FORM ===== */
+    #rsvp {
+      align-items: center;
+      padding: 2rem 1rem 2rem;
+    }
+
+    .form-card {
+      width: 100%;
+      max-width: 520px;
+      background: #fff;
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      margin-top: 1rem;
+      color: #333;
+    }
+
+    .form-card h2 {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 0.35rem;
+      opacity: 0.9;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1.5px solid rgba(0,0,0,0.2);
+      border-radius: 12px;
+      background: rgba(0,0,0,0.05);
+      color: #333;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(0,0,0,0.35);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: rgba(199,69,113,0.6);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .children-section h3 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .child-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .child-row input[type="text"] {
+      flex: 2;
+    }
+
+    .child-row input[type="number"] {
+      flex: 1;
+      max-width: 90px;
+    }
+
+    .child-row input {
+      padding: 0.6rem 0.8rem;
+      border: 1.5px solid rgba(0,0,0,0.2);
+      border-radius: 10px;
+      background: rgba(0,0,0,0.05);
+      color: #333;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .child-row input::placeholder {
+      color: rgba(0,0,0,0.35);
+    }
+
+    .child-row input:focus {
+      border-color: rgba(199,69,113,0.6);
+    }
+
+    .btn-remove-child {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,80,80,0.4);
+      color: #c74571;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .btn-remove-child:hover {
+      background: rgba(255,80,80,0.7);
+    }
+
+    .btn-add-child {
+      background: none;
+      border: 1.5px dashed rgba(0,0,0,0.3);
+      border-radius: 10px;
+      color: rgba(0,0,0,0.5);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.25rem;
+      margin-bottom: 1rem;
+      transition: all 0.2s;
+    }
+
+    .btn-add-child:hover {
+      border-color: rgba(199,69,113,0.6);
+      color: #c74571;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 0.85rem;
+      border: none;
+      border-radius: 50px;
+      background: rgba(199,69,113,1);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-message {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      min-height: 1.4em;
+    }
+
+    .form-message.success {
+      color: #89c4e1;
+    }
+
+    .form-message.error {
+      color: #ff7d7d;
+    }
+
+    /* ===== SCREEN 3: GIFTS ===== */
+    #gifts {
+      align-items: center;
+      padding: 2rem 1rem 2rem;
+    }
+
+    #gifts h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .gifts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .gift-card {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .gift-card img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      display: block;
+      padding: 0.5rem;
+    }
+
+    .gift-card .gift-name {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #333;
+      padding: 0.4rem 0.5rem 0.6rem;
+      line-height: 1.3;
+    }
+
+    /* Back button */
+    .btn-back {
+      background: none;
+      border: 1.5px solid rgba(255,255,255,0.6);
+      border-radius: 50px;
+      color: #c74571;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.55rem 1.5rem;
+      cursor: pointer;
+      margin-top: 2rem;
+      transition: all 0.2s;
+    }
+
+    .btn-back:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .home-content h1 {
+        font-size: 1.8rem;
+      }
+
+      .home-content p {
+        font-size: 0.95rem;
+      }
+
+      .nav-btn {
+        font-size: 0.7rem;
+        padding: 0.65rem 0.3rem;
+      }
+
+      .gifts-grid {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+      }
+
+      .form-card {
+        padding: 1.5rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="bg"></div>
+  <div class="bg-overlay"></div>
+
+  <!-- ===== SCREEN 1: HOME ===== -->
+  <section id="home" class="screen active">
+    <div class="home-content">
+      <h1>Venha Comemorar</h1>
+      <img src="img/title.png" alt="Sophia 5 anos" class="title-img">
+      <p class="event-info">28.03.26 | 19:00 h</p>
+      <p class="event-location">Estrelato Kids Buffet</p>
+      <p class="event-address">Av. Corifeu de Azevedo Marques, 6100</p>
+    </div>
+
+    <div class="nav-buttons">
+      <a class="nav-btn" href="https://www.google.com/maps?s=web&client=opera-gx&lqi=ChBidWZmZXQgZXN0cmVsYXRvSKOj7sT7soCACFoeEAAQARgAGAEiEGJ1ZmZldCBlc3RyZWxhdG8yAnB0kgEWY2hpbGRyZW5zX3BhcnR5X2J1ZmZldA&phdesc=PlMrL5fBmic&vet=12ahUKEwjoucWD_P-SAxVEq5UCHaJnJ6oQ1YkKegQIHBAB..i&cs=1&um=1&ie=UTF-8&fb=1&gl=br&sa=X&geocode=KdN0xCSg_86UMb7QQKvdK7UO&daddr=Av.+Corifeu+de+Azevedo+Marques,+6100+-+VILA+S%C3%83O+FRANCISCO,+S%C3%A3o+Paulo+-+SP,+05340-002" target="_blank" rel="noopener">Localização</a>
+      <button class="nav-btn" onclick="showScreen('rsvp')">Confirmar Presença</button>
+      <button class="nav-btn" onclick="showScreen('gifts')">Sugestão de Presentes</button>
+    </div>
+  </section>
+
+  <!-- ===== SCREEN 2: RSVP FORM ===== -->
+  <section id="rsvp" class="screen">
+    <div class="form-card">
+      <h2>Confirmar Presença</h2>
+      <form id="rsvpForm" onsubmit="submitForm(event)">
+
+        <div class="form-group">
+          <label for="responsavel1">Nome do Responsável 1</label>
+          <input type="text" id="responsavel1" placeholder="Nome completo" required>
+        </div>
+
+        <div class="form-group">
+          <label for="responsavel2">Nome do Responsável 2 <span style="opacity:0.5">(opcional)</span></label>
+          <input type="text" id="responsavel2" placeholder="Nome completo">
+        </div>
+
+        <div class="children-section">
+          <h3>Crianças</h3>
+          <div id="childrenList">
+            <div class="child-row">
+              <input type="text" placeholder="Nome" required>
+              <input type="number" placeholder="Idade" min="0" max="17" required>
+            </div>
+          </div>
+          <button type="button" class="btn-add-child" onclick="addChild()">+ Adicionar criança</button>
+        </div>
+
+        <div class="form-group">
+          <label for="observacoes">Observações <span style="opacity:0.5">(opcional)</span></label>
+          <textarea id="observacoes" placeholder="Alergias, restrições, etc."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnSubmit">Confirmar</button>
+        <div class="form-message" id="formMessage"></div>
+      </form>
+    </div>
+    <button class="btn-back" onclick="showScreen('home')">Voltar</button>
+  </section>
+
+  <!-- ===== SCREEN 3: GIFT SUGGESTIONS ===== -->
+  <section id="gifts" class="screen">
+    <h2>Sugestão de Presentes</h2>
+    <div class="gifts-grid" id="giftsGrid"></div>
+    <button class="btn-back" onclick="showScreen('home')">Voltar</button>
+  </section>
+
+  <script>
+    // ============================================================
+    // REPLACE THIS with your deployed Google Apps Script URL
+    var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwOiEZUJgzj15wX-GsVwoAelt8nRmCczZt94aENmEg-fFKG6fQl1wyJ2zv3joDh4FjmGg/exec';
+    // ============================================================
+
+    // --- Screen navigation ---
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(function(s) {
+        s.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // --- Dynamic children rows ---
+    function addChild() {
+      var row = document.createElement('div');
+      row.className = 'child-row';
+      row.innerHTML =
+        '<input type="text" placeholder="Nome" required>' +
+        '<input type="number" placeholder="Idade" min="0" max="17" required>' +
+        '<button type="button" class="btn-remove-child" onclick="removeChild(this)">&times;</button>';
+      document.getElementById('childrenList').appendChild(row);
+    }
+
+    function removeChild(btn) {
+      btn.closest('.child-row').remove();
+    }
+
+    document.getElementById('childrenList').addEventListener('click', function(e) {
+      if (e.target.classList.contains('btn-remove-child')) {
+        e.target.closest('.child-row').remove();
+      }
+    });
+
+    // --- Form submission ---
+    function submitForm(e) {
+      e.preventDefault();
+
+      var btn = document.getElementById('btnSubmit');
+      var msg = document.getElementById('formMessage');
+      msg.textContent = '';
+      msg.className = 'form-message';
+
+      // Gather children data
+      var rows = document.querySelectorAll('#childrenList .child-row');
+      var criancas = [];
+      for (var i = 0; i < rows.length; i++) {
+        var inputs = rows[i].querySelectorAll('input');
+        var nome = inputs[0].value.trim();
+        var idade = inputs[1].value.trim();
+        if (nome && idade) {
+          criancas.push({ nome: nome, idade: idade });
+        }
+      }
+
+      if (criancas.length === 0) {
+        msg.textContent = 'Adicione pelo menos uma criança.';
+        msg.className = 'form-message error';
+        return;
+      }
+
+      var payload = {
+        responsavel1: document.getElementById('responsavel1').value.trim(),
+        responsavel2: document.getElementById('responsavel2').value.trim(),
+        criancas: criancas,
+        observacoes: document.getElementById('observacoes').value.trim()
+      };
+
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+      var formInputs = document.querySelectorAll('#rsvpForm input, #rsvpForm textarea, #rsvpForm button');
+      formInputs.forEach(function(el) { el.disabled = true; });
+
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        msg.textContent = 'Presença confirmada!';
+        msg.className = 'form-message success';
+        document.getElementById('rsvpForm').reset();
+        // Reset children to a single empty row
+        document.getElementById('childrenList').innerHTML =
+          '<div class="child-row">' +
+          '<input type="text" placeholder="Nome" required>' +
+          '<input type="number" placeholder="Idade" min="0" max="17" required>' +
+          '</div>';
+      })
+      .catch(function() {
+        msg.textContent = 'Erro ao enviar. Tente novamente.';
+        msg.className = 'form-message error';
+      })
+      .finally(function() {
+        var formInputs = document.querySelectorAll('#rsvpForm input, #rsvpForm textarea, #rsvpForm button');
+        formInputs.forEach(function(el) { el.disabled = false; });
+        btn.textContent = 'Confirmar';
+      });
+    }
+
+    // --- Load gifts from JSON file ---
+    fetch('gifts.json')
+      .then(function(res) { return res.json(); })
+      .then(function(gifts) {
+        var grid = document.getElementById('giftsGrid');
+        gifts.forEach(function(gift) {
+          var card = document.createElement('div');
+          card.className = 'gift-card';
+          card.innerHTML = '<img src="' + gift.image + '" alt="' + gift.name + '">' +
+            '<div class="gift-name">' + gift.name + '</div>';
+          grid.appendChild(card);
+        });
+      });
+  </script>
+
+</body>
+</html>
