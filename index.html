@@ -25,6 +25,7 @@
       font-family: 'Poppins', sans-serif;
       color: #c74571;
       overflow-x: hidden;
+      overscroll-behavior: none;
     }
 
     body {
@@ -34,12 +35,16 @@
     /* Background */
     .bg {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
+      touch-action: none;
     }
 
     .bg img {
@@ -86,6 +91,7 @@
       align-items: center;
       text-align: center;
       padding: 12rem 1.5rem 140px;
+      overflow: hidden;
     }
 
     .home-content h1 {
