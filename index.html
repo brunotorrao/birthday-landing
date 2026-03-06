@@ -590,12 +590,6 @@
         }
       }
 
-      if (criancas.length === 0) {
-        msg.textContent = 'Adicione pelo menos uma criança.';
-        msg.className = 'form-message error';
-        return;
-      }
-
       var payload = {
         responsavel1: document.getElementById('responsavel1').value.trim(),
         responsavel2: document.getElementById('responsavel2').value.trim(),
