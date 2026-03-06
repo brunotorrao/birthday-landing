@@ -507,8 +507,8 @@
           <h3>Crianças</h3>
           <div id="childrenList">
             <div class="child-row">
-              <input type="text" placeholder="Nome" required>
-              <input type="number" placeholder="Idade" min="0" max="17" required>
+              <input type="text" placeholder="Nome">
+              <input type="number" placeholder="Idade" min="0" max="17">
             </div>
           </div>
           <button type="button" class="btn-add-child" onclick="addChild()">+ Adicionar criança</button>
@@ -553,8 +553,8 @@
       var row = document.createElement('div');
       row.className = 'child-row';
       row.innerHTML =
-        '<input type="text" placeholder="Nome" required>' +
-        '<input type="number" placeholder="Idade" min="0" max="17" required>' +
+        '<input type="text" placeholder="Nome">' +
+        '<input type="number" placeholder="Idade" min="0" max="17">' +
         '<button type="button" class="btn-remove-child" onclick="removeChild(this)">&times;</button>';
       document.getElementById('childrenList').appendChild(row);
     }
@@ -614,8 +614,8 @@
         // Reset children to a single empty row
         document.getElementById('childrenList').innerHTML =
           '<div class="child-row">' +
-          '<input type="text" placeholder="Nome" required>' +
-          '<input type="number" placeholder="Idade" min="0" max="17" required>' +
+          '<input type="text" placeholder="Nome">' +
+          '<input type="number" placeholder="Idade" min="0" max="17">' +
           '</div>';
       })
       .catch(function() {
